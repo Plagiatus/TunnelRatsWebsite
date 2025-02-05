@@ -1,9 +1,11 @@
 <script lang="ts">
     import type { Action } from "svelte/action";
-    import * as nbt from "prismarine-nbt";
 
-    let dropContainer: HTMLDivElement;
-    let highlight: boolean = false;
+    let { fileInput }: { fileInput: (files: FileList) => void } = $props();
+
+    let dropContainer: HTMLLabelElement;
+    let highlight: boolean = $state(false);
+    // svelte-ignore non_reactive_update
     let files: FileList;
 
     const initDropContainer: Action = (node) => {
@@ -34,47 +36,35 @@
     function handleDrop(_e: DragEvent) {
         const data = _e.dataTransfer;
         const droppedFiles = data?.files;
-        loadFiles(droppedFiles);
+        if (!droppedFiles) return;
+        fileInput(droppedFiles);
     }
-    function fileInput(_e: Event) {
-        loadFiles(files);
-    }
-
-    function loadFiles(files: FileList | undefined) {
-        if (!files) return;
-        for (const file of files) {
-            if (file.name === "hotbar.nbt") {
-                readNBTFile(file);
-            }
-        }
-    }
-
-    async function readNBTFile(file: File) {
-        const reader = new FileReader();
-        const buffer = await file.arrayBuffer();
-        const { parsed, type } = await nbt.parse(buffer);
-        console.log({ parsed, type });
+    function inputFiles(_e: Event) {
+        fileInput(files);
     }
 </script>
 
-<div
+<label
     id="dropContainer"
     use:initDropContainer
     bind:this={dropContainer}
     class={[{ highlight }]}
+    for="hotbars"
 >
-    Drop your hotbars here or
-    <label id="dropContainerClick" for="hotbars"> click here </label>
+    Drop your hotbar.nbt or command_storage_*.dat here or
+    <div id="dropContainerClick">click here</div>
+    to select the file(s).
     <input
         type="file"
         name="hotbars"
         id="hotbars"
         hidden
         bind:files
-        onchange={fileInput}
-        accept=".nbt"
+        onchange={inputFiles}
+        accept=".nbt, .dat"
+        multiple
     />
-</div>
+</label>
 
 <style>
     #dropContainer {
@@ -84,13 +74,13 @@
         border-radius: 1em;
         display: grid;
         place-items: center;
+        cursor: pointer;
     }
 
     #dropContainerClick {
         background-color: orange;
         padding: 0.25em 0.75em;
         border-radius: 1em;
-        cursor: pointer;
     }
     #dropContainer.highlight {
         background-color: rgb(255, 165, 0, 0.5);

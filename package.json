@@ -28,6 +28,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"nbtify": "^2.2.0",
 		"prismarine-nbt": "^2.7.0"
 	}
 }
