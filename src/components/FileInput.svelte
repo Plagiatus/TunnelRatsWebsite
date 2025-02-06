@@ -68,7 +68,7 @@
 
 <style>
     #dropContainer {
-        border: 2px dotted orange;
+        border: 2px dotted var(--color-highlight);
         margin: 1em;
         padding: 1em;
         border-radius: 1em;
@@ -78,7 +78,7 @@
     }
 
     #dropContainerClick {
-        background-color: orange;
+        background-color: var(--color-highlight);
         padding: 0.25em 0.75em;
         border-radius: 1em;
     }

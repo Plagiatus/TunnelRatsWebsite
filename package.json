@@ -29,7 +29,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
-		"nbtify": "^2.2.0",
-		"prismarine-nbt": "^2.7.0"
+		"mongodb": "^6.13.0",
+		"nbtify": "^2.2.0"
 	}
 }
