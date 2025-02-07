@@ -2,8 +2,8 @@
     import { importLevel, type LevelToDisplay } from "$lib/import/main";
     import { findLevelsInHotbar, findLevelsInStorageDat, readNBTFile } from "$lib/nbtReader";
     import type { CompoundTag } from "nbtify";
-    import FileInput from "../../components/FileInput.svelte";
-    import Level from "../../components/Level.svelte";
+    import FileInput from "cmp/FileInput.svelte";
+    import Level from "cmp/Level.svelte";
 
     let importedLevels: CompoundTag[] = $state([]);
 
@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-    <title>Tunnel Rats Map Sharer</title>
+    <title>Upload - Tunnel Rats</title>
 </svelte:head>
 
 <h1>Tunnel Rats Map Sharer</h1>
