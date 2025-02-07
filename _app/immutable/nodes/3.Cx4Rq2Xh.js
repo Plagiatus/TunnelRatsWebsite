@@ -1,0 +1,1 @@
+import{t,a as r}from"../chunks/YgMqriwU.js";import"../chunks/DQGTqdIB.js";import{$ as n}from"../chunks/BxylWL3j.js";import{h as e}from"../chunks/DZaqJdkz.js";var m=t("<h1>Download</h1>");function l(o){var a=m();e(p=>{n.title="Download - Tunnel Rats"}),r(o,a)}export{l as component};

@@ -1,0 +1,1 @@
+import{t as a,a as r}from"../chunks/YgMqriwU.js";import"../chunks/DQGTqdIB.js";import{$ as e}from"../chunks/BxylWL3j.js";import{h as p}from"../chunks/DZaqJdkz.js";var m=a("<h1>Frontpage</h1>");function f(o){var t=m();p(n=>{e.title="Tunnel Rats"}),r(o,t)}export{f as component};

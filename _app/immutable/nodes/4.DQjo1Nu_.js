@@ -1,0 +1,1 @@
+import{t as a,a as t}from"../chunks/YgMqriwU.js";import"../chunks/DQGTqdIB.js";import{$ as r}from"../chunks/BxylWL3j.js";import{h as m}from"../chunks/DZaqJdkz.js";var p=a("<h1>Browse / Search Levels</h1>");function l(e){var o=p();m(n=>{r.title="Levels - Tunnel Rats"}),t(e,o)}export{l as component};
