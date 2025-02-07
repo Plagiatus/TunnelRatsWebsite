@@ -2,19 +2,15 @@
     import { importLevel, type LevelToDisplay } from "$lib/import/main";
     import type { CompoundTag } from "nbtify";
 
-    let { level }: { level: CompoundTag } = $props();
-
-    let levelToDisplay: LevelToDisplay | undefined = $derived(
-        importLevel(level),
-    );
+    let { level }: { level?: LevelToDisplay } = $props();
 </script>
 
-{#if levelToDisplay}
+{#if level}
     <div class="level">
-        <span class="level-name">{levelToDisplay.name}</span>
-        <span class="level-info level-sections">sections: {levelToDisplay.level.sections}</span>
-        <span class="level-info level-size">width: {levelToDisplay.level.width}</span>
-        <span class="level-info level-version">v{levelToDisplay.version}</span>
+        <span class="level-name">{level.name}</span>
+        <span class="level-info level-sections">sections: {level.level.sections}</span>
+        <span class="level-info level-size">width: {level.level.width}</span>
+        <span class="level-info level-version">v{level.version}</span>
     </div>
 {/if}
 

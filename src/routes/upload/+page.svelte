@@ -33,7 +33,7 @@
 
 <div class="foundLevelWrapper">
     {#each importedLevels as level}
-        <Level {level} />
+        <Level level={importLevel(level)} />
     {/each}
 </div>
 

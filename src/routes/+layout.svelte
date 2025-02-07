@@ -40,7 +40,7 @@
         margin-top: 3em;
         flex-grow: 1;
         color: var(--color-text);
-        background-image: url("img/background.png");
+        background-image: url("/img/background.png");
         --image-width: 64;
     }
     footer {
