@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { LevelToDisplay } from "$lib/import/main";
-    import Level from "cmp/Level.svelte";
+    import type { LevelInDB } from "$lib/server/db/repositories/LevelRepository";
+    import LevelInList from "cmp/LevelInList.svelte";
 
-    let { data }: { data: { levels: LevelToDisplay[] } } = $props();
+    let { data }: { data: { levels: LevelInDB[] } } = $props();
 </script>
 
 <svelte:head>
@@ -11,5 +11,5 @@
 
 <h1>Browse / Search Levels</h1>
 {#each data.levels as level}
-    <Level {level} />
+    <LevelInList {level} />
 {/each}

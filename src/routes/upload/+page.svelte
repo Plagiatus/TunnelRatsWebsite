@@ -3,7 +3,7 @@
     import { findLevelsInHotbar, findLevelsInStorageDat, readNBTFile } from "$lib/nbtReader";
     import type { CompoundTag } from "nbtify";
     import FileInput from "cmp/FileInput.svelte";
-    import Level from "cmp/Level.svelte";
+    import LevelInList from "cmp/LevelInList.svelte";
 
     let importedLevels: CompoundTag[] = $state([]);
 
@@ -33,7 +33,7 @@
 
 <div class="foundLevelWrapper">
     {#each importedLevels as level}
-        <Level level={importLevel(level)} />
+        <!-- <LevelInList level={importLevel(level)} /> -->
     {/each}
 </div>
 

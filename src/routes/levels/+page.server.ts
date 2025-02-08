@@ -1,5 +1,5 @@
-import { getLevels } from "$lib/server/db";
+import Database from "$lib/server/db/Database";
 
-export function load() {
-    return {levels: getLevels()};
+export async function load() {
+    return { levels: await Database.levelRepository.getMultiple({}, 10) };
 }

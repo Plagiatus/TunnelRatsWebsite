@@ -4,9 +4,9 @@
         <span>Tunnel Rats</span>
     </a>
     <nav>
-        <a class="nav-item highlight" href="download">Download</a>
-        <a class="nav-item" href="upload">Upload Levels</a>
-        <a class="nav-item" href="levels">Browse Levels</a>
+        <a class="nav-item highlight" href="/download">Download</a>
+        <a class="nav-item" href="/upload">Upload Levels</a>
+        <a class="nav-item" href="/levels">Browse Levels</a>
     </nav>
 </header>
 
