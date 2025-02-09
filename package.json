@@ -30,6 +30,10 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@oslojs/crypto": "^1.0.1",
+		"@oslojs/encoding": "^1.1.0",
+		"@types/bcrypt": "^5.0.2",
+		"bcrypt": "^5.1.1",
 		"mongodb": "^6.13.0",
 		"nbtify": "^2.2.0"
 	}

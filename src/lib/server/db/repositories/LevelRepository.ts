@@ -11,6 +11,7 @@ export type LevelInDB = {
     downloads: number,
     likes: number,
     tags: string[],
+    owner: number,
 }
 
 export type LevelVersion = {

@@ -1,3 +1,7 @@
+<script lang="ts">
+    let { user }: { user: string | undefined } = $props();
+    let username = $derived(user);
+</script>
 
 <header>
     <a href="/">
@@ -7,6 +11,11 @@
         <a class="nav-item highlight" href="/download">Download</a>
         <a class="nav-item" href="/upload">Upload Levels</a>
         <a class="nav-item" href="/levels">Browse Levels</a>
+        {#if !username}
+            <a class="nav-item" href="/login">Login</a>
+        {:else}
+            <a class="nav-item" href="/logout" data-sveltekit-preload-data="off">Logout</a>
+        {/if}
     </nav>
 </header>
 
@@ -23,13 +32,13 @@
         display: flex;
         justify-content: space-between;
     }
-    
+
     nav {
         display: flex;
         flex-direction: row;
         gap: 1em;
     }
-    
+
     a {
         color: inherit;
         text-decoration: none;

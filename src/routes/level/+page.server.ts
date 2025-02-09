@@ -1,3 +1,3 @@
-import { redirect } from "@sveltejs/kit";
+// import { redirect } from "@sveltejs/kit";
 
-redirect(308, "/levels");
+// redirect(308, "/levels");

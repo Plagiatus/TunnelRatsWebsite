@@ -13,8 +13,16 @@ export class Repository<TDocument extends Mongo.Document, TId extends keyof TDoc
         return <Promise<TDocument | null>>this.collection.findOne(this.getQueryForDocument(id), { projection: { _id: 0 } });
     }
 
-    public getMultiple(query: Mongo.Filter<TDocument>, limit: number, sort?: Mongo.Sort): Promise<TDocument[]> {
-        return (<Mongo.FindCursor<TDocument>>this.collection.find(query, { projection: { _id: 0 }, limit, sort })).toArray();
+    public getMultiple(query: Mongo.Filter<TDocument>, limit: number, skip: number = 0, sort?: Mongo.Sort): Promise<TDocument[]> {
+        return (<Mongo.FindCursor<TDocument>>this.collection.find(query, { projection: { _id: 0 }, skip, limit, sort })).toArray();
+    }
+
+    public add(document: Mongo.OptionalUnlessRequiredId<TDocument>) {
+        return this.collection.insertOne(document);
+    }
+
+    public remove(documentOrId: TDocument | TDocument[TId]) {
+        return this.collection.deleteOne(this.getQueryForDocument(documentOrId));
     }
 
     protected getQueryForDocument(documentOrId: TDocument | TDocument[TId]): Mongo.Filter<TDocument> {

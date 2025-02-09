@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { LevelInDB } from "$lib/server/db/repositories/LevelRepository";
     import LevelInList from "cmp/LevelInList.svelte";
+    import type { PageProps } from "./$types";
 
-    let { data }: { data: { levels: LevelInDB[] } } = $props();
+    let { data }: PageProps = $props();
 </script>
 
 <svelte:head>

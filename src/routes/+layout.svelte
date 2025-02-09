@@ -1,7 +1,8 @@
 <script lang="ts">
     import Header from "../components/Header.svelte";
+    import type { PageData } from "./$types";
 
-    let { children } = $props();
+    let { children, data } = $props();
 
     let width: number = $state(0);
 </script>
@@ -9,7 +10,7 @@
 <svelte:window bind:innerWidth={width} />
 
 <div id="content" style:--screen-width={width}>
-    <Header />
+    <Header user={data.user} />
 
     <main class="scale-background">
         {@render children?.()}
@@ -55,6 +56,20 @@
         --color-highlight-darker: rgb(207, 137, 5);
         --color-highlight-transparent: rgba(255, 165, 0, 0.5);
         --color-on-highlight: rgb(0, 0, 0);
+
+        --color-warning: yellow;
+        --color-error: red;
+    }
+
+    :global(a) {
+        color: inherit;
+    }
+
+    :global(.error) {
+        background-color: var(--color-error);
+    }
+    :global(.warning) {
+        background-color: var(--color-warning);
     }
 
     :global(.scale-background) {
