@@ -1,0 +1,7 @@
+Email confirmation
+
+Hi and thank you for registering an account on the Tunnel Rats website.
+
+To confirm your email address, please click here or copy the link to your browser: %LINK%
+
+The link is valid for 15 minutes or until you get a new email confirmation.

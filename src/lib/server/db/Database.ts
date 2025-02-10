@@ -19,6 +19,7 @@ export default class Database {
 
     static async connect() {
         await this.client.connect();
+        console.info("Database connected");
     }
     static async close() {
         await this.client.close();

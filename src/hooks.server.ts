@@ -2,11 +2,13 @@ import { dev } from "$app/environment";
 import { deleteSessionTokenCookie, getSessionTokenCookie, setSessionTokenCookie as setSessionTokenCookie } from "$lib/server/auth/cookies";
 import { RefillingTokenBucket } from "$lib/server/auth/rate-limiter";
 import Database from "$lib/server/db/Database";
+import Mail from "$lib/server/mail/mail";
 import { type ServerInit, type Handle, error } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 
 export const init: ServerInit = async () => {
 	Database.connect();
+	Mail.verify();
 }
 
 const bucket = new RefillingTokenBucket<string>(100, 1);
