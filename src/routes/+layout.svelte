@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Footer from "cmp/Footer.svelte";
     import Header from "../components/Header.svelte";
     import type { PageData } from "./$types";
 
@@ -16,7 +17,7 @@
         {@render children?.()}
     </main>
 
-    <footer>Footer Placeholder</footer>
+    <Footer />
 </div>
 
 <style>
@@ -26,15 +27,8 @@
         min-height: 100vh;
         --scale-factor: 4;
     }
-    footer,
     main {
         padding: 1em;
-    }
-    footer {
-        width: 100%;
-        color: white;
-        z-index: 1000;
-        background-color: black;
     }
     main {
         position: relative;
@@ -43,9 +37,6 @@
         color: var(--color-text);
         background-image: url("/img/background.png");
         --image-width: 64;
-    }
-    footer {
-        filter: drop-shadow(0 0 0.5em black);
     }
 
     :global(body) {

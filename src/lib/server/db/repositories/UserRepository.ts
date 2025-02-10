@@ -9,6 +9,9 @@ export type User = {
     email: string,
     emailVerified: boolean,
     passwordHash: string,
+    joinedOn: Date,
+    levels: string[],
+    likes: string[],
 }
 
 export class UserRepository extends Repository<User, "id"> {
@@ -25,7 +28,7 @@ export class UserRepository extends Repository<User, "id"> {
     public async createNewUser(username: string, email: string, password: string): Promise<User> {
         const id = await Database.counterRepository.getNextNumber("users");
         const passwordHash = await hashPassword(password);
-        const user: User = { email, emailVerified: false, id, username, passwordHash };
+        const user: User = { email, emailVerified: false, id, username, passwordHash, joinedOn: new Date(), levels: [], likes: [] };
         this.add(user);
         return user;
     }
