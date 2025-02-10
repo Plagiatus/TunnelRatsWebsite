@@ -5,6 +5,7 @@ import type { Action, Actions } from "./$types";
 import { failWithErrorAndData, verifyEmailInput, verifyUsername } from "$lib/utils";
 import Database from "$lib/server/db/Database";
 import { getPasswordValidationError } from "$lib/server/auth/password";
+import { setSessionTokenCookie } from "$lib/server/auth/cookies";
 
 const bucket = new RefillingTokenBucket<string>(20, 1);
 
@@ -32,7 +33,7 @@ const registerAction: Action = async (event) => {
         return failWithErrorAndData(400, usernameError, username, email)
     }
 
-    
+
     if (!email || typeof email !== "string" || !verifyEmailInput(email)) {
         return failWithErrorAndData(400, "Email invalid or missing.", username, email);
     }
@@ -56,7 +57,10 @@ const registerAction: Action = async (event) => {
     // TODO email verification
     // TODO 2FA
     console.log(user);
-    return fail(400);
+
+    const sessionToken = Database.sessionRepository.generateSessionToken();
+    const session = await Database.sessionRepository.createSession(sessionToken, user.id);
+    setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
     return redirect(302, "/");
 }

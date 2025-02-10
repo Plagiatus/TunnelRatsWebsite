@@ -1,5 +1,5 @@
 import { sha1 } from "@oslojs/crypto/sha1";
-import { encodeHexLowerCase } from "@oslojs/encoding";
+import { encodeBase32UpperCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import * as bcrypt from "bcrypt";
 
 const saltRounds = 10;
@@ -28,4 +28,11 @@ export async function getPasswordValidationError(password: string): Promise<stri
         }
     }
     return "";
+}
+
+export function createRandomOTP(length: number = 5): string {
+    const bytes = new Uint8Array(length);
+    crypto.getRandomValues(bytes);
+    const code  = encodeBase32UpperCaseNoPadding(bytes);
+    return code;
 }

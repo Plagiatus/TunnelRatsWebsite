@@ -2,6 +2,7 @@ import type { Collection } from "mongodb";
 import { Repository } from "./Repository";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
+import { expireIn } from "$lib/utils";
 
 export type Session = {
     id: string,
@@ -27,7 +28,7 @@ export class SessionRepository extends Repository<Session, "id"> {
         const session: Session = {
             id: sessionId,
             userId,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+            expiresAt: expireIn({days: 30})
         };
 
         await this.collection.insertOne(session);
@@ -39,7 +40,7 @@ export class SessionRepository extends Repository<Session, "id"> {
         const sessionInDb = await this.get(sessionId);
         if (!sessionInDb) return;
         if (Date.now() >= sessionInDb.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
-            sessionInDb.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+            sessionInDb.expiresAt = expireIn({days: 30});
             this.collection.updateOne({ id: sessionInDb.id }, sessionInDb);
         }
         return sessionInDb;

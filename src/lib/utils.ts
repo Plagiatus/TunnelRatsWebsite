@@ -18,14 +18,21 @@ export async function verifyUsername(username: string): Promise<string> {
     return "";
 }
 
-// export function enhanceLoading(): { loading: boolean, enhance: () => void } {
-//     let loading = $state(false);
-//     const enhance = () => {
-//         loading = true;
-//         return async ({ update }: { update: () => Promise<void> }) => {
-//             await update();
-//             loading = false;
-//         };
-//     }
-//     return { loading, enhance };
-// } 
+
+interface ExpireOptions {
+    seconds: number,
+    minutes: number,
+    hours: number,
+    days: number,
+}
+export function expireIn(options: Partial<ExpireOptions>): Date {
+    const filled: ExpireOptions = { ... { days: 0, hours: 0, minutes: 0, seconds: 0 }, ...options };
+
+    return new Date(
+        Date.now() +
+        1000 * filled.seconds +
+        1000 * 60 * filled.minutes +
+        1000 * 60 * 60 * filled.hours +
+        1000 * 60 * 60 * 24 * filled.days
+    )
+}
