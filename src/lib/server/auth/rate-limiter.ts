@@ -15,11 +15,10 @@ export class RefillingTokenBucket<Key> {
             return true;
         }
         this.refill(bucket);
-        return bucket.count > cost;
+        return bucket.count >= cost;
     }
 
     public consume(key: Key, cost: number): boolean {
-        
         if (!this.storage.has(key)) {
             this.storage.set(key, { count: this.max, refilledAt: Date.now() });
         }

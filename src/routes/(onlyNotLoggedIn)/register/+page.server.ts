@@ -50,11 +50,6 @@ const registerAction: Action = async (event) => {
     }
 
     const user = await Database.userRepository.createNewUser(username, email, password);
-    // const sessionToken = Database.sessionRepository.generateSessionToken();
-    // const session = await Database.sessionRepository.createSession(sessionToken, user.id);
-    // setSesssionTokenCookie(event, sessionToken, session.expiresAt);
-
-    // TODO email verification
     // TODO 2FA
     console.log(user);
 
@@ -62,7 +57,7 @@ const registerAction: Action = async (event) => {
     const session = await Database.sessionRepository.createSession(sessionToken, user.id);
     setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-    return redirect(302, "/");
+    return redirect(302, "/verify-email");
 }
 export const actions: Actions = {
     default: registerAction,

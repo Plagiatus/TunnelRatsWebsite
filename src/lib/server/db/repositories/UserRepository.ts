@@ -29,4 +29,7 @@ export class UserRepository extends Repository<User, "id"> {
         this.add(user);
         return user;
     }
+    public async setVerifiedEmail(id: number, email: string) {
+        return this.collection.updateOne({ id }, { $set: { email, emailVerified: true } });
+    }
 }

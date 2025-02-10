@@ -25,6 +25,7 @@ interface ExpireOptions {
     hours: number,
     days: number,
 }
+
 export function expireIn(options: Partial<ExpireOptions>): Date {
     const filled: ExpireOptions = { ... { days: 0, hours: 0, minutes: 0, seconds: 0 }, ...options };
 

@@ -43,13 +43,12 @@ export default class Mail {
         opt.html = baseHTML.replaceAll("%CONTENT%", opt.html);
         opt.text = baseText.replaceAll("%CONTENT%", opt.text);
         for(const r of opt.replace) {
-            console.log(r, opt);
             opt.html = opt.html.replaceAll(r[0], r[1]);
             opt.text = opt.text.replaceAll(r[0], r[1]);
             opt.subject = opt.subject.replaceAll(r[0], r[1]);
         }
         try {
-            this.transporter.sendMail(opt);
+            await this.transporter.sendMail(opt);
         } catch (error) {
             console.error(error);
         }
@@ -77,7 +76,7 @@ interface MailTemplate {
     subject: string,
 }
 
-interface MailSendOptions extends MailTemplate {
+export interface MailSendOptions extends MailTemplate {
     to: string,
     from?: string,
     replyTo?: string,

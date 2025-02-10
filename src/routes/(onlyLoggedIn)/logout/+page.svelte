@@ -1,13 +1,17 @@
 <script lang="ts">
     import { invalidateAll, goto } from "$app/navigation";
+    import { waitMs } from "$lib/client/utils.svelte";
+    import { onMount } from "svelte";
 
     async function logout() {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await waitMs(1000);
         await invalidateAll();
         goto("/");
     }
 
-    logout();
+    onMount(()=>{
+        logout();
+    });
 
 </script>
 

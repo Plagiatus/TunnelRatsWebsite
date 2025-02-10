@@ -21,9 +21,9 @@ export async function getPasswordValidationError(password: string): Promise<stri
     const response = await fetch(`https://api.pwnedpasswords.com/range/${hashPrefix}`);
     const data = await response.text();
     const items = data.split("\r\n");
-    for(const item of items) {
+    for (const item of items) {
         const hashSuffix = item.slice(0, 35).toLowerCase();
-        if(hash === hashPrefix + hashSuffix){
+        if (hash === hashPrefix + hashSuffix) {
             return `This password has been leaked on the internet ${item.slice(36)} times and is thus insecure (see <a href="https://haveibeenpwned.com/Passwords">haveibeenpwned.com</a>). Please use a different one.`;
         }
     }
@@ -33,6 +33,6 @@ export async function getPasswordValidationError(password: string): Promise<stri
 export function createRandomOTP(length: number = 5): string {
     const bytes = new Uint8Array(length);
     crypto.getRandomValues(bytes);
-    const code  = encodeBase32UpperCaseNoPadding(bytes);
+    const code = encodeBase32UpperCaseNoPadding(bytes);
     return code;
 }
