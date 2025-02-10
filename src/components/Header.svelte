@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { User } from "$lib/server/db/repositories/UserRepository";
     import { onMount } from "svelte";
+    import titleImg from "$lib/assets/title.png?enhanced";
 
     let { user }: { user: Partial<User> | undefined } = $props();
     let username = $derived(user);
@@ -14,9 +15,12 @@
 </script>
 
 <header>
-    <a href="/">
-        <span>Tunnel Rats</span>
-    </a>
+    <nav>
+        <a href="/" aria-label="Tunnel Rats" id="title-in-header" >
+            <enhanced:img src={titleImg} alt="Tunnel Rats" />
+        </a>
+        <a class="nav-item" href="/download">Download</a>
+    </nav>
     <nav>
         <a class="nav-item" href="/levels">Browse Levels</a>
         {#if !username}
@@ -81,6 +85,17 @@
     a {
         color: inherit;
         text-decoration: none;
+    }
+
+    #title-in-header {
+        object-fit: contain;
+        max-height: 2em;
+        aspect-ratio: 1920 / 290;
+    }
+    #title-in-header img {
+        object-fit: contain;
+        max-height: 2em;
+        aspect-ratio: 1920 / 290;
     }
     .nav-item {
         background-color: var(--color-highlight);
