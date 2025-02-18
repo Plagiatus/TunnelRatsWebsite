@@ -1,4 +1,4 @@
-import { MAIL_PASSWORD, MAIL_PORT, MAIL_SERVER, MAIL_USERNAME } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import * as nodemailer from "nodemailer";
 
 import baseHTML from "./templates/base.html?raw";
@@ -13,12 +13,12 @@ export default class Mail {
     private static readyToSend: boolean = false;
     private static transporter: nodemailer.Transporter = nodemailer.createTransport({
         //@ts-expect-error host and port aren't recognized for some reason
-        host: MAIL_SERVER,
-        port: MAIL_PORT,
+        host: env.MAIL_SERVER,
+        port: env.MAIL_PORT,
         secure: true,
         auth: {
-            user: MAIL_USERNAME,
-            pass: MAIL_PASSWORD,
+            user: env.MAIL_USERNAME,
+            pass: env.MAIL_PASSWORD,
         },
     });
 
@@ -61,10 +61,10 @@ export default class Mail {
 
     private static getDefaultOptions(): Required<MailSendOptions> {
         return {
-            from: "noreply@plagiatus.net",
+            from: env.MAIL_FROM,
             to: "",
             html: "", subject: "", text: "",
-            replyTo: "contact@plagiatus.net",
+            replyTo: env.MAIL_REPLY_TO,
             replace: [],
         }
     }

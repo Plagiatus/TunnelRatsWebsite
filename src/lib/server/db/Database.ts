@@ -1,4 +1,4 @@
-import { DB_URL, DB_NAME } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import { MongoClient } from "mongodb";
 import { LevelRepository } from "./repositories/LevelRepository";
 import { SessionRepository } from "./repositories/SessionRepository";
@@ -9,8 +9,8 @@ import { EmailVerificationRepository } from "./repositories/EmailVerificationRep
 
 
 export default class Database {
-    private static client = new MongoClient(DB_URL);
-    private static db = this.client.db(DB_NAME);
+    private static client = new MongoClient(env.DB_URL);
+    private static db = this.client.db(env.DB_NAME);
     static readonly levelRepository: LevelRepository = new LevelRepository(this.db.collection("levels"));
     static readonly sessionRepository: SessionRepository = new SessionRepository(this.db.collection("sessions"));
     static readonly userRepository: UserRepository = new UserRepository(this.db.collection("users"));

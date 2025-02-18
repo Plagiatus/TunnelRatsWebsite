@@ -103,9 +103,6 @@
         line-height: 1;
         color: var(--color-on-highlight);
     }
-    .nav-item.highlight {
-        background-color: var(--color-highlight);
-    }
     .nav-item:hover {
         background-color: var(--color-highlight-darker);
     }
