@@ -70,7 +70,7 @@
         z-index: 1000;
         background-color: black;
         position: fixed;
-        height: 4em;
+        height: 4rem;
         filter: drop-shadow(0 0 0.5em black);
         display: flex;
         justify-content: space-between;
