@@ -37,6 +37,8 @@
         color: var(--color-text);
         background-image: url("/img/background.png");
         --image-width: 64;
+        display: flex;
+        flex-direction: column;
     }
 
     :global(body) {
@@ -84,5 +86,16 @@
             (100vw / (var(--screen-width) / var(--scale-factor))) *
                 var(--image-width)
         );
+    }
+
+    :global(button) {
+        background-color: var(--color-highlight);
+        font-size: inherit;
+        padding: 0.375em 0.75em;
+        border: none;
+        cursor: pointer;
+    }
+    :global(button:hover) {
+        background-color: var(--color-highlight-darker);
     }
 </style>

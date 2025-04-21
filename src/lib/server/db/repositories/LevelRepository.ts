@@ -15,6 +15,7 @@ export type LevelInDB = {
 }
 
 export type LevelVersion = {
+    downloads: number,
     name: string,
     version: string,
     gameVersion: number,
