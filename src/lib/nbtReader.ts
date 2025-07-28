@@ -1,13 +1,17 @@
 
 // import * as nbt from "prismarine-nbt";
 // import * as nbt from "nbt";
-import { getTagType, NBTData, read, TAG, type CompoundTag, type ListTag, type RootTag, type StringTag, type Tag } from "nbtify";
+import { getTagType, NBTData, read, TAG, type CompoundTag, type IntTag, type ListTag, type RootTag, type StringTag, type Tag } from "nbtify";
 
 export interface LevelInNBT extends CompoundTag {
+    game_version: IntTag,
+    level: CompoundTag,
+    settings?: CompoundTag,
     data: {
         author: StringTag,
         name: StringTag,
         info?: StringTag,
+        namespace?: StringTag;
     }
 }
 

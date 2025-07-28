@@ -18,14 +18,18 @@ export async function getPasswordValidationError(password: string): Promise<stri
 
     const hash = encodeHexLowerCase(sha1(new TextEncoder().encode(password)));
     const hashPrefix = hash.slice(0, 5);
-    const response = await fetch(`https://api.pwnedpasswords.com/range/${hashPrefix}`);
-    const data = await response.text();
-    const items = data.split("\r\n");
-    for (const item of items) {
-        const hashSuffix = item.slice(0, 35).toLowerCase();
-        if (hash === hashPrefix + hashSuffix) {
-            return `This password has been leaked on the internet ${item.slice(36)} times and is thus insecure (see <a href="https://haveibeenpwned.com/Passwords">haveibeenpwned.com</a>). Please use a different one.`;
+    try {
+        const response = await fetch(`https://api.pwnedpasswords.com/range/${hashPrefix}`);
+        const data = await response.text();
+        const items = data.split("\r\n");
+        for (const item of items) {
+            const hashSuffix = item.slice(0, 35).toLowerCase();
+            if (hash === hashPrefix + hashSuffix) {
+                return `This password has been leaked on the internet ${item.slice(36)} times and is thus insecure (see <a href="https://haveibeenpwned.com/Passwords">haveibeenpwned.com</a>). Please use a different one.`;
+            }
         }
+    } catch (error) {
+        console.error(error);
     }
     return "";
 }

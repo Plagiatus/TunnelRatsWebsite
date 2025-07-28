@@ -1,22 +1,28 @@
 <script lang="ts">
-    import { waitMs } from "$lib/client/utils.svelte";
+    import { enhance } from "$app/forms";
+    import { enhanceLoading, waitMs } from "$lib/client/utils.svelte";
     import type { Level } from "$lib/import/main";
     import type { LevelInDB } from "$lib/server/db/repositories/LevelRepository";
-    import type { User } from "$lib/server/db/repositories/UserRepository";
     import LevelInList from "cmp/LevelInList.svelte";
-    import { read } from "nbtify";
+    import type { PageProps } from "./$types";
+    import type { User } from "$lib/server/db/repositories/UserRepository";
+    import type { LevelInNBT } from "$lib/nbtReader";
+    import { type CompoundTag, parse, stringify } from "nbtify";
 
-    let { user }: { user: Partial<User> | undefined } = $props();
+    let { user, form }: PageProps & { user: Partial<User> } = $props();
 
     let error = $state("");
     let level: LevelInDB | undefined = $state();
+    let rawLevel: LevelInNBT | undefined = $state();
+    let loading = enhanceLoading();
     function messageReceiver(event: MessageEvent) {
-        let lvl: Level = event.data;
+        rawLevel = parse(event.data) as LevelInNBT;
+        console.log(rawLevel);
         level = {
             id: "",
-            title: lvl.data.name,
-            description: lvl.data.info ?? "",
-            author: lvl.data.author,
+            title: rawLevel.data.name,
+            description: rawLevel.data.info ?? "",
+            author: rawLevel.data.author,
             image: "",
             versions: [],
             downloads: 401,
@@ -50,12 +56,20 @@
         });
         reader.readAsDataURL(files[0]);
     }
+
+    function cancel() {
+        window.close();
+    }
 </script>
 
 <svelte:window onmessage={messageReceiver} />
 
 <svelte:head>
-    <title>Upload {level?.title} - Tunnel Rats</title>
+    {#if error}
+        <title>Upload FAILED - Tunnel Rats</title>
+    {:else}
+        <title>Upload {level?.title} - Tunnel Rats</title>
+    {/if}
 </svelte:head>
 
 <h1>Create {level?.title}</h1>
@@ -63,7 +77,15 @@
 <div class="wrapper">
     {#if level}
         <div class="level-setup-wrapper">
-            <div class="level-setup">
+            <form
+                enctype="multipart/form-data"
+                class="level-setup"
+                method="POST"
+                use:enhance={loading.enhance}
+            >
+                {#if form?.error}
+                    <div class="error">{@html form.error}</div>
+                {/if}
                 <div class="input-wrapper">
                     <label for="name">Name</label>
                     <input
@@ -72,6 +94,8 @@
                         id="name"
                         bind:value={level.title}
                         maxlength="32"
+                        minlength="3"
+                        required
                     />
                 </div>
                 <!-- TODO: add warning if author isn't user -->
@@ -83,7 +107,26 @@
                         id="author"
                         bind:value={level.author}
                         maxlength="32"
+                        required
                     />
+                </div>
+                <div class="input-wrapper">
+                    <label for="version">Version</label>
+                    <input
+                        type="text"
+                        name="version"
+                        id="version"
+                        maxlength="24"
+                        placeholder="1.0.0"
+                        required
+                    />
+                    <span
+                        >We recommend you use <a
+                            href="https://semver.org/"
+                            target="_blank"
+                            rel="noopener noreferrer">Semantic Versioning</a
+                        > for your maps.</span
+                    >
                 </div>
                 <div class="input-wrapper">
                     <label for="info">Description</label>
@@ -91,6 +134,9 @@
                         name="info"
                         id="info"
                         bind:value={level.description}
+                        minlength="10"
+                        maxlength="1024"
+                        required
                     ></textarea>
                 </div>
                 <div class="input-wrapper">
@@ -108,15 +154,38 @@
                         <img src={level.image} alt="" id="preview-image" />
                     {/if}
                 </div>
-                <div class="input-wrapper">
-                    <label for="tags">Tags</label>
-                    <input type="text" name="tags" id="tags" />
-                </div>
+                {#if rawLevel?.data.namespace}
+                    <div class="input-wrapper">
+                        <label for="dp-link">Datapack Link</label>
+                        <input
+                            type="text"
+                            name="dp-link"
+                            id="dp-link"
+                            placeholder="https://...."
+                            required
+                        />
+                        <span
+                            >This level uses the namespace link functionality to
+                            go with a custom datapack. Please link to this
+                            datapack here.</span
+                        >
+                    </div>
+                {/if}
 
+                {#if rawLevel}
+                    <input
+                        type="hidden"
+                        name="levelData"
+                        value={stringify<CompoundTag>(rawLevel)}
+                    />
+                {/if}
                 <button>Create</button>
-                <button>Cancel</button>
-            </div>
+                <button type="button" onclick={cancel} class="danger"
+                    >Cancel</button
+                >
+            </form>
             <div>
+                <h2>Preview</h2>
                 <LevelInList {level} link={false} />
             </div>
         </div>

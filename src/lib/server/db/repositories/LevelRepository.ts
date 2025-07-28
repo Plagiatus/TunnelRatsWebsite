@@ -1,5 +1,12 @@
-import type { Collection, Filter, FindOptions, Sort } from "mongodb";
+import type { Collection, Filter, FindOptions, InsertOneResult, OptionalId, Sort } from "mongodb";
 import { Repository } from "./Repository";
+
+export enum LevelStatus {
+    PENDING = "pending",
+    APPROVED = "approved",
+    HIDDEN = "hidden",
+    REMOVED = "removed",
+}
 
 export type LevelInDB = {
     id: string,
@@ -12,6 +19,7 @@ export type LevelInDB = {
     likes: number,
     tags: string[],
     owner: number,
+    status?: LevelStatus,
 }
 
 export type LevelVersion = {
@@ -37,6 +45,7 @@ export class LevelRepository extends Repository<LevelInDB, "id"> {
     public constructor(collection: Collection<LevelInDB>) {
         super(collection, "id");
         collection.createIndex([{ title: "text" }, { description: "text" }, { author: "text" }]);
+        collection.createIndex({ status: 1 });
     }
 
     public async search(searchOptions: LevelSearchOptions): Promise<LevelInDB[]> {
@@ -69,5 +78,21 @@ export class LevelRepository extends Repository<LevelInDB, "id"> {
 
         // pipeline.push({ $project: { _id: 0, versions: 0 } });
         // this.collection.aggregate(pipeline, options);
+    }
+
+    public async add(document: OptionalId<LevelInDB>): Promise<InsertOneResult<LevelInDB>> {
+        if (!document.id) {
+            document.id = await this.getUnusedId();
+        }
+        return super.add(document);
+    }
+
+    public async getUnusedId(): Promise<string> {
+        const options: string[] = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
+        let id: string = "";
+        do {
+            id = Array.from(Array(6), () => options[Math.floor(Math.random() * options.length)]).join("");
+        } while (await this.get(id));
+        return id;
     }
 }

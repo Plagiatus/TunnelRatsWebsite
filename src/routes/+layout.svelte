@@ -58,7 +58,8 @@
         color: inherit;
     }
 
-    :global(.error) {
+    :global(.error),
+    :global(.danger) {
         background-color: var(--color-error);
     }
     :global(.warning) {

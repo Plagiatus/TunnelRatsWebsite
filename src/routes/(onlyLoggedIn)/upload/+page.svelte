@@ -6,7 +6,7 @@
         readNBTFile,
         type LevelInNBT,
     } from "$lib/nbtReader";
-    import type { CompoundTag, StringTag } from "nbtify";
+    import { parse, stringify, type CompoundTag, type StringTag } from "nbtify";
     import FileInput from "cmp/FileInput.svelte";
     import LevelInList from "cmp/LevelInList.svelte";
     import { waitMs } from "$lib/client/utils.svelte";
@@ -33,11 +33,9 @@
     async function startImport(level: LevelInNBT) {
         const newWindow = window.open("/upload/level");
         // await waitMs(2000);
-        console.log(
-            newWindow?.addEventListener("load", () => {
-                newWindow?.postMessage(JSON.parse(JSON.stringify(level)));
-            }),
-        );
+        newWindow?.addEventListener("load", () => {
+            newWindow?.postMessage(stringify<CompoundTag>(level));
+        });
     }
 </script>
 
